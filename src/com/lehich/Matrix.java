@@ -41,19 +41,31 @@ public static void massPrint(int[][] matrix) {
 
 
 public static int[][] Test(int[][] matrix,int x1,int x2,int y1,int y2) {
-    matrix[x1][x2] = 0;
+    matrix[x1-1][x2-1] = 0;
     boolean add = true;
-    int[][] battle = matrix;
+    int[][] battle = new int[12][12];
+    for(int i = 0;i<10;i++){
+        for(int j =0;j<10;j++){
+            battle[i+1][j+1] = matrix[i][j];
+        }
+    }
+    for(int i =0;i<12;i++){
+        battle[i][0] = 1;
+        battle[11][i] = 1;
+        battle[0][i] = 1;
+        battle[i][11] = 1;
+    }
+
     int step = 0;
-    for(int i =0;i<battle.length;i++){
+    for(int i = 0;i<battle.length;i++){
         for (int j =0;j<battle.length;j++)
         {
-        if(matrix[i][j]==1) battle[i][j] = -2;
+        if(battle[i][j]==1) battle[i][j] = -2;
         else battle[i][j] = -1;
         }
     }
     battle[y1][y2] = 0;
-  try {
+  //try {
       while (add == true) {
           add = false;
           for (int i = 0; i < battle.length; i++) {
@@ -75,13 +87,27 @@ public static int[][] Test(int[][] matrix,int x1,int x2,int y1,int y2) {
           if (battle[x1][x2] > 0 ) {
               add = false;
           }
-          if(step > 99){System.out.println("Путь невозможен");}
+          if(step > battle.length*battle.length){
+              add=false;
+              System.out.println("Путь невозможен");}
       }
-      massPrint(battle);
-  }
-  catch (Exception ex) {
-      System.out.println("Путь невозможен");
-  }
+//      massPrint(battle);
+
+    for(int i = 1;i<battle.length-1;i++){
+        for (int j =1;j<battle.length-1;j++)
+        {
+            System.out.printf("%2d  ", battle[i][j]);
+        }
+        System.out.println();
+    }
+
+//  }
+//  catch (Exception ex) {
+//      System.out.println("Путь невозможен");
+//  }
+
+
+
   return battle;
  }
 }
